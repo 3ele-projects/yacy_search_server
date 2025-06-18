@@ -1,0 +1,7 @@
+
+[#{tags}#
+{
+    "#[name]#": #[count]#
+}#[comma]#
+#{/tags}#
+]
