@@ -1,0 +1,391 @@
+openapi: 3.1.0
+info:
+  title: Bookmark API- OpenAPI 3.1
+  description: |-
+    Description
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
+servers:
+  - url: 
+tags:
+  - name: bookmarks
+    description: YaCy Book Mark API Wrapper
+
+paths:
+  /api/v1/bookmarks:
+    put:
+      tags:
+        - bookmarks
+      summary: Update an existing bookmark.
+      description: Update an existing bookmark by Id.
+      operationId: updateBookmark
+      requestBody:
+        description: Update an existent bookmark in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: BookMark not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+    post:
+      tags:
+        - bookmarks
+      summary: Add a new bookmark to the store.
+      description: Add a new bookmark to the store.
+      operationId: addBookMark
+      requestBody:
+        description: Create a new bookmark in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookMark'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+  /api/v1/bookmark/findByStatus:
+    get:
+      tags:
+        - bookmarks
+      summary: Finds BookMarks by status.
+      description: Multiple status values can be provided with comma separated strings.
+      operationId: findBookMarksByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: public
+            enum:
+              - public
+              - private
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMark'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMark'
+        '400':
+          description: Invalid status value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+  /api/v1/bookmark/findByTags:
+    get:
+      tags:
+        - bookmarks
+      summary: Finds BookMarks by tags.
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findBookMarksByTags
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMark'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMark'
+        '400':
+          description: Invalid tag value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+  /api/v1/bookmark/{bookmarkId}:
+    get:
+      tags:
+        - bookmarks
+      summary: Find bookmark by identifier.
+      description: Returns a single bookmark.
+      operationId: getBookMarkById
+      parameters:
+        - name: bookmarkId
+          in: path
+          description: ID of bookmark to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BookMark'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: BookMark not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - api_key: []
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+    post:
+      tags:
+        - bookmarks
+      summary: Updates a bookmark in the store with form data.
+      description: update a bookmark via the form data.
+      operationId: updateBookMarkWithForm
+      parameters:
+        - name: bookmarkId
+          in: path
+          description: ID of bookmark that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Name of bookmark that needs to be updated
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Status of bookmark that needs to be updated
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully updated
+        '400':
+          description: Invalid input
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+    delete:
+      tags:
+        - bookmarks
+      summary: Deletes a bookmark.
+      description: delete a bookmark.
+      operationId: deleteBookMark
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: bookmarkId
+          in: path
+          description: BookMark id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid bookmark value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - bookmarkstore_auth:
+            - write:bookmarks
+            - read:bookmarks
+
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+      xml:
+        name: tag
+    BookMark:
+      required:
+        - url
+        - title
+        - public
+      type: object
+      properties:
+        id:
+          type: string
+          examples: ["5B2Yve6o84og"]
+        title:
+          type: string
+          examples: ["Example"]
+        path:
+          type: string
+        public:
+          type: string
+          description: bookmark public status
+          enum:
+            - public
+            - private
+        description:
+          type: string
+        url:
+          type: string
+        tags:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+
+
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  requestBodies:
+    BookMark:
+      description: BookMark object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BookMark'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/BookMark'
+    BookMarkArray:
+      description: List of boomark objects
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/BookMark'
+
