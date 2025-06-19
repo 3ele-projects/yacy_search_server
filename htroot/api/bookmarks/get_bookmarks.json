@@ -2,14 +2,14 @@
 {
 "page": #[page]#,
 "total": #[total]#,
-"posts": {
+"bookmarks": {
 #{bookmarks}#
 "#[hash]#":{
     "public": #(public)#"public"::"private"#(/public)#,
 	"title":"#[title]#",
 	"link":"#[link]#",
-	"tags":"#[tagsjson]#",
-	"folders":"#[folders]#",
+	"tags":#[tags-json]#,
+	"folders":#[folders-json]#,
 	"date":"#[date]#"
 	}#[comma]#
 #{/bookmarks}#

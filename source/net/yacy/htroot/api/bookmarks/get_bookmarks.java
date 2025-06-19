@@ -179,6 +179,7 @@ public class get_bookmarks {
                         prop.putXML("display_bookmarks_"+count+"_desc-xml", bookmark.getDescription());
                         prop.putXML("display_bookmarks_"+count+"_tags-xml", bookmark.getTagsString());
                         prop.putXML("display_bookmarks_"+count+"_folders-xml", (bookmark.getFoldersString()));
+                      
 
                         // and plain text (potentially unsecure)
                         prop.put("display_bookmarks_"+count+"_title", bookmark.getTitle());
@@ -186,8 +187,9 @@ public class get_bookmarks {
                         prop.put("display_bookmarks_"+count+"_tags", bookmark.getTagsString());
                         prop.put("display_bookmarks_"+count+"_folders", (bookmark.getFoldersString()));
 
-
-                        prop.put("display_bookmarks_"+count+"_tagsjson", bookmark.getTagsJsonList());
+                        // json string encoding
+                        prop.put("display_bookmarks_"+count+"_tags-json", bookmark.getTagsJsonList());
+                        prop.put("display_bookmarks_"+count+"_folders-json", bookmark.getFolderJsonList());
 
                         count++;
                     }

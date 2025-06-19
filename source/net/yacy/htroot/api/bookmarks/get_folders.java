@@ -98,9 +98,9 @@ public class get_folders {
             }
     	}
 
-    	count--;
-    	prop.put("folders_"+count+"_comma", "");
-    	count++;
+
+    	prop.put("folders_"+(count -1)+"_comma", "");
+    	
     	prop.put("folders", count);
 
         // return rewrite properties
