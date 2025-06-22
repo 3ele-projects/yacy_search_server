@@ -8,7 +8,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.12
 servers:
-  - url: 
+  - url: example.org
 tags:
   - name: bookmarks
     description: YaCy Book Mark API Wrapper
@@ -346,8 +346,31 @@ components:
             wrapped: true
           items:
             $ref: '#/components/schemas/Tag'
-
-
+    Xbel:
+          type: object
+          properties:
+            id:
+              type: string
+              examples: ["5B2Yve6o84og"]
+            title:
+              type: string
+              examples: ["Example"]
+            path:
+              type: string
+            public:
+              type: string
+              description: bookmark public status
+              enum:
+                - public
+                - private
+            description:
+              type: string
+            url:
+              type: string
+            tags:
+              type: array
+              items:
+                $ref: '#/components/schemas/Tag'
     ApiResponse:
       type: object
       properties:
@@ -380,6 +403,9 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/BookMark'
+        application/xbel+xml:
+              schema:
+                $ref: '#/components/schemas/Xbel'
     BookMarkArray:
       description: List of boomark objects
       content:
