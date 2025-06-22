@@ -55,6 +55,7 @@ public class ConfigAccountList_p {
             prop.putHTML("userlist_" + numUsers + "_lastname", entry.getLastName());
             prop.putHTML("userlist_" + numUsers + "_firstname", entry.getFirstName());
             prop.putHTML("userlist_" + numUsers + "_address", entry.getAddress());
+            prop.putHTML("userlist_" + numUsers + "_api_key",  entry.getAPIKEY() );
             if (entry.getLastAccess() != null) {
 				prop.put("userlist_" + numUsers + "_lastaccess",
 						GenericFormatter.formatSafely(entry.getLastAccess(), GenericFormatter.FORMAT_SIMPLE));
@@ -94,7 +95,7 @@ public class ConfigAccountList_p {
             } else {
                 prop.put("userlist_" + numUsers + "_traffic", "");
             }
-
+      
 
             numUsers++;
         }

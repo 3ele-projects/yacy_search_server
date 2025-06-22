@@ -131,7 +131,7 @@ public class ConfigAccounts_p {
         prop.put("address", "");
         prop.put("timelimit", "");
         prop.put("timeused", "");
-
+        prop.put("api_key", "");
         final AccessRight[] rights = AccessRight.values();
         int c = 0;
         for (final AccessRight right : rights) {
@@ -169,7 +169,11 @@ public class ConfigAccounts_p {
                     prop.putHTML("lastname", entry.getLastName());
                     prop.putHTML("address", entry.getAddress());
                     prop.put("timelimit", entry.getTimeLimit());
+                    prop.putHTML("api_key", entry.getAPIKEY());
+
                     prop.put("timeused", entry.getTimeUsed());
+                    prop.put("api_key", entry.getAPIKEY());
+                    
                     int count = 0;
                     for (final AccessRight right : rights){
                         prop.put("rights_" + count + "_set", entry.hasRight(right) ? "1" : "0");
@@ -203,6 +207,7 @@ public class ConfigAccounts_p {
             final String address = post.get("address");
             final String timeLimit = post.get("timelimit");
             final String timeUsed = post.get("timeused");
+            final String api_key = post.get("api_key");
             final Map<AccessRight, String> rightsSet = new EnumMap<AccessRight, String>(AccessRight.class);
 
             for(final AccessRight right : rights) {
@@ -223,7 +228,7 @@ public class ConfigAccounts_p {
                 mem.put(UserDB.Entry.USER_ADDRESS, address);
                 mem.put(UserDB.Entry.TIME_LIMIT, timeLimit);
                 mem.put(UserDB.Entry.TIME_USED, timeUsed);
-
+                mem.put(UserDB.Entry.API_KEY, api_key);
                 for (final AccessRight right : rights) {
                     mem.put(right.toString(), rightsSet.get(right));
                 }
@@ -251,6 +256,10 @@ public class ConfigAccounts_p {
                         entry.setProperty(UserDB.Entry.TIME_LIMIT, timeLimit);
                         entry.setProperty(UserDB.Entry.TIME_USED, timeUsed);
 
+                        entry.setProperty(UserDB.Entry.TIME_USED, api_key);
+
+
+
                         for(final AccessRight right : rights) {
                             entry.setProperty(right.toString(), rightsSet.get(right));
                         }
@@ -274,6 +283,8 @@ public class ConfigAccounts_p {
                 prop.putHTML("firstname", entry.getFirstName());
                 prop.putHTML("lastname", entry.getLastName());
                 prop.putHTML("address", entry.getAddress());
+                prop.putHTML("api_key", entry.getAPIKEY());
+
                 prop.put("timelimit", entry.getTimeLimit());
                 prop.put("timeused", entry.getTimeUsed());
                 int count = 0;
