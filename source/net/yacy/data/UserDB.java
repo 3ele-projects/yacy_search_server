@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -362,6 +363,9 @@ public final class UserDB {
         public static final int PROXY_NORIGHT = 2; //no proxy right
         public static final int PROXY_TIMELIMIT_REACHED = 3;
         
+
+        /* piep */
+        public static final String API_KEY = ""; 
         // this is a simple record structure that hold all properties of a user
         private Map<String, String> mem;
         private String userName;
@@ -400,7 +404,12 @@ public final class UserDB {
         
         public String getAddress() {
             return (this.mem.containsKey(USER_ADDRESS) ? this.mem.get(USER_ADDRESS) : null);
+        }
+        
+        public String getAPIKEY() {
+            return (this.mem.containsKey(API_KEY) ? this.mem.get(API_KEY) : null);
         } 
+        
         
         public long getTimeUsed() {
             long ret = 0L;

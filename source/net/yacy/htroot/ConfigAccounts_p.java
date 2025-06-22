@@ -287,6 +287,8 @@ public class ConfigAccounts_p {
 
                 prop.put("timelimit", entry.getTimeLimit());
                 prop.put("timeused", entry.getTimeUsed());
+                prop.put("api_key", entry.getAPIKEY());
+
                 int count = 0;
                 for (final AccessRight right : rights) {
                     prop.put("rights_" + count + "_set", entry.hasRight(right) ? "1" : "0");
