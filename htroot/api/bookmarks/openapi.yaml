@@ -33,6 +33,7 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/BookMark'
+
         required: true
       responses:
         '200':
@@ -44,6 +45,10 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BookMark'
+            application/xbel:
+              schema:
+                $ref: '#/components/schemas/XBELBookMark'
+        
         '400':
           description: Invalid ID supplied
         '404':
@@ -308,6 +313,34 @@ paths:
 
 components:
   schemas:
+    XBELBookMark:
+      type: string
+      properties:
+        id:
+          type: string
+          examples: ["5B2Yve6o84og"]
+        title:
+          type: string
+          examples: ["Example"]
+        path:
+          type: string
+        public:
+          type: string
+          description: bookmark public status
+          enum:
+            - public
+            - private
+        description:
+          type: string
+        url:
+          type: string
+        tags:
+          type: string
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+
     Tag:
       type: object
       properties:
@@ -315,6 +348,7 @@ components:
           type: string
       xml:
         name: tag
+
     BookMark:
       required:
         - url
@@ -346,31 +380,7 @@ components:
             wrapped: true
           items:
             $ref: '#/components/schemas/Tag'
-    Xbel:
-          type: object
-          properties:
-            id:
-              type: string
-              examples: ["5B2Yve6o84og"]
-            title:
-              type: string
-              examples: ["Example"]
-            path:
-              type: string
-            public:
-              type: string
-              description: bookmark public status
-              enum:
-                - public
-                - private
-            description:
-              type: string
-            url:
-              type: string
-            tags:
-              type: array
-              items:
-                $ref: '#/components/schemas/Tag'
+
     ApiResponse:
       type: object
       properties:
@@ -383,6 +393,7 @@ components:
           type: string
       xml:
         name: '##default'
+
     Error:
       type: object
       properties:
@@ -393,6 +404,7 @@ components:
       required:
         - code
         - message
+
   requestBodies:
     BookMark:
       description: BookMark object that needs to be added to the store
@@ -403,15 +415,12 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/BookMark'
-        application/xbel+xml:
-              schema:
-                $ref: '#/components/schemas/Xbel'
+
     BookMarkArray:
-      description: List of boomark objects
+      description: List of bookmark objects
       content:
         application/json:
           schema:
             type: array
             items:
               $ref: '#/components/schemas/BookMark'
-
