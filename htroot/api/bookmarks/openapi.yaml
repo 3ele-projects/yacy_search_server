@@ -14,6 +14,154 @@ tags:
     description: YaCy Book Mark API Wrapper
 
 paths:
+
+  api/v1/blacklists/{blacklist}:
+    tags:
+        - blacklist
+    get:
+      tags:
+        - blacklist
+
+    post:
+      tags:
+        - blacklist
+
+  api/v1/blacklists/{blacklist}/meta:
+    tags:
+        - blacklist
+    get:
+
+    post:
+
+  api/v1/blacklists/:
+    tags:
+        - blacklist
+    get:
+
+    put:
+
+
+  api/v1/config:
+    get:
+      tags:
+        - config
+
+  api/v1/feeds:
+    get:
+      tags:
+        - feed
+
+  api/v1/page/info:
+    get:
+      tags:
+        - pageinfo
+
+  api/v1/version:
+    get:
+      tags:
+        - system
+
+  api/v1/schema:
+    get:
+      tags:
+        - schema
+
+  api/v1/users:
+    get:
+      tags:
+        - user
+    responses:
+              '200':
+                description: Successful operation
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/UserArray'
+                  application/xml:
+                    schema:
+                      $ref: '#/components/schemas/UserArray'
+                  application/xbel:
+                    schema:
+                      $ref: '#/components/schemas/UserArray'
+  api/v1/users/me/{username}:
+    get:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+    responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+              application/xml:
+                schema:
+                  $ref: '#/components/schemas/User'
+              application/xbel:
+                schema:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - user
+      responses:
+          '200':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+              application/xml:
+                schema:
+                  $ref: '#/components/schemas/User'
+              application/xbel:
+                schema:
+                  $ref: '#/components/schemas/User'
+  api/v1/login:
+    get:
+      tags:
+        - user
+    post:
+      tags:
+        - user
+
+  api/v1/logout:
+    get:
+      tags:
+        - user
+
+  api/v1/search:
+    get:
+      tags:
+        - search
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+
+
+
+  api/v1/crawl:
+    get:
+      tags:
+        - search
+
+  api/v1/admin:
+    get:
+      tags:
+        - admin
+
+  api/v1/admin/status:
+    get:
+      tags:
+        - admin
+
   /api/v1/bookmarks:
     put:
       tags:
@@ -348,6 +496,19 @@ components:
           type: string
       xml:
         name: tag
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        user_rights:
+          type: object
+      xml:
+        name: tag
 
     BookMark:
       required:
@@ -424,3 +585,11 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/BookMark'
+    UserArray:
+      description: List of user objects
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
